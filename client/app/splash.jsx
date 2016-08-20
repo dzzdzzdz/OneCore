@@ -1,11 +1,6 @@
 import React, {Component} from 'react';
-// impor  t $ from 'jquery';
 import { Router, Route, Link, browserHistory } from 'react-router';
 import {Image} from 'react-bootstrap';
-// import {ButtonGroup} from 'react-bootstrap';
-// import {Button} from 'react-bootstrap';
-// import {DropdownButton} from 'react-bootstrap';
-// import {MenuItem} from 'react-bootstrap';
 
 export default class Splash extends React.Component {
   constructor(props) {

@@ -19,7 +19,7 @@ export default class BrainView extends React.Component {
   render() {
     return(
       <div className="loading-container">
-        <div className="loading-text"> (Loading) </div>
+        <div className="loading-text">(Loading)</div>
         <div className={this.state.brainState ? "brain-print-container" : ""}>
           {
             this.state.brainState.output.map((val, idx) => { 

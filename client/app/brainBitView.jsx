@@ -10,7 +10,6 @@ export default class BrainBitView extends React.Component {
     }
   }
 
-
   componentWillUnmount() {
     clearInterval(this.state.halt);
   }
@@ -19,7 +18,8 @@ export default class BrainBitView extends React.Component {
     var halt = setInterval(() => {
       if (this.state.isOn && !this.state.halting) {
         this.setState({isOn: false});
-      } else {
+      } 
+      else {
         this.setState({isOn: true});
       }
     }, Math.abs(this.props.value)*10);
@@ -36,6 +36,6 @@ export default class BrainBitView extends React.Component {
             <span>{this.state.isOn ? (<div className="brain-print-block-show"></div>) : (<div className="brain-print-block-hide"></div>)}</span>
           </ReactCSSTransitionGroup>
       </div>
-      )
+    )
   }
 }

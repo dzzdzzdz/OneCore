@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { Router, Route, Link, browserHistory } from 'react-router';
 import $ from 'jquery';
-import {Button, ButtonToolbar, Form, FormGroup, Col, FormControl, ControlLabel, Checkbox, Row, Grid} from 'react-bootstrap';
+import { Button, ButtonToolbar, Form, FormGroup, Col, FormControl, ControlLabel, Checkbox, Row, Grid } from 'react-bootstrap';
 
 export default class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName:"",
-      lastName: "",
-      username: "",
-      password: "",
-      address: "",
-      phone: "",
+      firstName:'',
+      lastName: '',
+      username: '',
+      password: '',
+      address: '',
+      phone: '',
       zipcode: 10001,
-      email: "",
+      email: '',
       //form validation
       firstnameIsValid: false,
       lastnameIsValid: false,
@@ -37,12 +37,11 @@ export default class Signup extends React.Component {
   }
 
   submitUser(e) {
-
     if(!this.state.phoneIsValid || !this.state.emailIsValid || !this.state.zipcodeIsValid || !this.state.firstnameIsValid || !this.state.lastnameIsValid || !this.state.usernameIsValid || !this.state.passwordIsValid) {
       this.setState({formIsValid: false});
     }
     else {
-      window.localStorage.removeItem("currentPage");
+      window.localStorage.removeItem('currentPage');
       e.preventDefault();
       var newUser = {
         firstName: this.state.firstName,  //length 2
@@ -54,7 +53,6 @@ export default class Signup extends React.Component {
         zipcode: this.state.zipcode,  //exactly 5 digits
         email: this.state.email  //
       };
-
       $.ajax({
         type: 'POST',
         url: '/api/signup',
@@ -65,12 +63,12 @@ export default class Signup extends React.Component {
         data: JSON.stringify(newUser),
           success: function(data){
             console.log('user signup successful! This is the data returned: ', data.user.zipcode);
-            window.localStorage.setItem("username", data.user.username);
-            window.localStorage.setItem("token", data.token);
-            window.location = "/profile";
+            window.localStorage.setItem('username', data.user.username);
+            window.localStorage.setItem('token', data.token);
+            window.location = '/profile';
           },
           error: function(err){
-            alert("Sorry! We were unable to sign you up. Please complete the empty fields. If all fields are complete, please select a different username");
+            alert('Sorry! We were unable to sign you up. Please complete the empty fields. If all fields are complete, please select a different username');
             console.log('error in signup :', err);
           }
       });
@@ -81,7 +79,8 @@ export default class Signup extends React.Component {
     this.setState({firstName: e.target.value});
     if (e.target.value.length >= 2) {
       this.setState({firstnameIsValid: true});
-    } else {
+    } 
+    else {
       this.setState({firstnameIsValid: false});
     }
   }
@@ -90,7 +89,8 @@ export default class Signup extends React.Component {
     this.setState({lastName: e.target.value})
     if (e.target.value.length >= 2) {
       this.setState({lastnameIsValid: true});
-    } else {
+    } 
+    else {
       this.setState({lastnameIsValid: false});
     }
   }
@@ -99,7 +99,8 @@ export default class Signup extends React.Component {
     this.setState({username: e.target.value});
     if (e.target.value.length >= 4) {
       this.setState({usernameIsValid: true});
-    } else {
+    } 
+    else {
       this.setState({usernameIsValid: false});
     }
   }
@@ -108,10 +109,10 @@ export default class Signup extends React.Component {
     this.setState({password: e.target.value})
     if (e.target.value.length >= 4) {
       this.setState({passwordIsValid: true});
-    } else {
+    } 
+    else {
       this.setState({passwordIsValid: false});
     }
-
   }
 
   handleAddress(e) {
@@ -122,61 +123,63 @@ export default class Signup extends React.Component {
     this.setState({zipcode: e.target.value});
     if (e.target.value.match(/\d/g).length===5) {
       this.setState({zipcodeIsValid: true});
-    } else {
+    } 
+    else {
       this.setState({zipcodeIsValid: false});
     }
-
   }
 
   handlePhone(e) {
     this.setState({phone: e.target.value});
-        if (e.target.value.match(/\d/g).length===10) {
+    if (e.target.value.match(/\d/g).length===10) {
       this.setState({phoneIsValid: true});
-    } else {
+    } 
+    else {
       this.setState({phoneIsValid: false});
     }
   }
 
   handleEmail(e) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var re = /^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     this.setState({email: e.target.value});
     if (re.test(e.target.value)) {
       this.setState({emailIsValid: true});
-    } else {
+    } 
+    else {
       this.setState({emailIsValid: false});
     }
   }
 
   render() {
     return (
-      <div className= "signup-container">
-      <Grid>
-        <Row>
-          <h1> Sign-up </h1>
-        </Row>
-        <Row>
-          <Form>
-                <div className='signup-cat'><span>First Name</span> <input className="signup-input" type="text" onChange={this.handleFirstName} /></div><br/>
-                <h6 className={(this.state.firstnameIsValid ? 'hidden' : 'invalid')}> Name must be at least two letters. </h6>
-                <div className='signup-cat'><span>Last Name</span><input className="signup-input" type="text" onChange={this.handleLastName}/></div><br/>
-                <h6 className={(this.state.lastnameIsValid ? 'hidden' : 'invalid')}> Name must be at least two letters. </h6>
-                <div className='signup-cat'><span>Username</span><input className="signup-input" type="text" onChange={this.handleUsername}/></div><br/>
-                <h6 className={(this.state.usernameIsValid ? 'hidden' : 'invalid')}> Username must be at least four letters. </h6>
-                <div className='signup-cat'><span>Password</span> <input className="signup-input" type="password" onChange={this.handlePassword}/></div><br />
-                <h6 className={(this.state.passwordIsValid ? 'hidden' : 'invalid')}> Password must be at least four letters. </h6>
-                <div className='signup-cat'><span>Address</span><input className="signup-input" type="text" onChange={this.handleAddress}/></div><br/>
-                <div className='signup-cat'><span>Zip code</span><input className="signup-input" type="text" onChange={this.handleZipcode}/></div><br/>
-                <h6 className={(this.state.zipcodeIsValid ? 'hidden' : 'invalid')}> Please enter a valid zipcode </h6>
-                <div className='signup-cat'><span>Phone</span> <input className="signup-input" type="text" onChange={this.handlePhone}/></div>
-                <h6 className={(this.state.phoneIsValid ? 'hidden' : 'invalid')}> Phone number must be 11 digits</h6>
-                <div className='signup-cat'><span>Email</span> <input className="signup-input" type="text" onChange={this.handleEmail}/></div>
-                <h6 className={(this.state.emailIsValid ? 'hidden' : 'invalid')}> Please enter a valid email </h6>
-                <button className='signup-cat' onClick={ this.submitUser }>Submit</button>
-                <h6 className={(this.state.formIsValid ? 'hidden' : 'invalid')}> Some of your data is not valid.  Please check above. </h6>
-              <Link to="/signin"> Return to Sign-in </Link>
-              </Form>
-              </Row>
-            </Grid>
+      <div className= 'signup-container'>
+        <Grid>
+          <Row>
+            <h1> Sign-up </h1>
+          </Row>
+          <Row>
+            <Form>
+              <div className='signup-cat'><span>First Name</span> <input className='signup-input' type='text' onChange={this.handleFirstName} /></div><br/>
+              <h6 className={(this.state.firstnameIsValid ? 'hidden' : 'invalid')}>Name must be at least two letters.</h6>
+              <div className='signup-cat'><span>Last Name</span><input className='signup-input' type='text' onChange={this.handleLastName}/></div><br/>
+              <h6 className={(this.state.lastnameIsValid ? 'hidden' : 'invalid')}>Name must be at least two letters.</h6>
+              <div className='signup-cat'><span>Username</span><input className='signup-input' type='text' onChange={this.handleUsername}/></div><br/>
+              <h6 className={(this.state.usernameIsValid ? 'hidden' : 'invalid')}>Username must be at least four letters.</h6>
+              <div className='signup-cat'><span>Password</span> <input className='signup-input' type='password' onChange={this.handlePassword}/></div><br />
+              <h6 className={(this.state.passwordIsValid ? 'hidden' : 'invalid')}>Password must be at least four letters.</h6>
+              <div className='signup-cat'><span>Address</span><input className='signup-input' type='text' onChange={this.handleAddress}/></div><br/>
+              <div className='signup-cat'><span>Zip code</span><input className='signup-input' type='text' onChange={this.handleZipcode}/></div><br/>
+              <h6 className={(this.state.zipcodeIsValid ? 'hidden' : 'invalid')}>Please enter a valid zipcode</h6>
+              <div className='signup-cat'><span>Phone</span> <input className='signup-input' type='text' onChange={this.handlePhone}/></div>
+              <h6 className={(this.state.phoneIsValid ? 'hidden' : 'invalid')}>Phone number must be 11 digits</h6>
+              <div className='signup-cat'><span>Email</span> <input className='signup-input' type='text' onChange={this.handleEmail}/></div>
+              <h6 className={(this.state.emailIsValid ? 'hidden' : 'invalid')}>Please enter a valid email</h6>
+              <button className='signup-cat' onClick={ this.submitUser }>Submit</button>
+              <h6 className={(this.state.formIsValid ? 'hidden' : 'invalid')}>Some of your data is not valid.  Please check above.</h6>
+              <Link to='/signin'> Return to Sign-in </Link>
+            </Form>
+          </Row>
+        </Grid>
       </div>
     );
   }
