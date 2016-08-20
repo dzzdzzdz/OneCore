@@ -10,6 +10,7 @@ import Map from './map.jsx';
 import _ from 'lodash';
 import { Modal, Button, ButtonToolbar, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import EditDoctorModal from './editDoctor.jsx';
+import {ScrollBox, ScrollAxes, FastTrack} from 'react-scroll-box';
 
 export default class Profile extends React.Component {
   constructor(props) {
@@ -350,17 +351,20 @@ export default class Profile extends React.Component {
     return (
       <div className='profile-container'>
         <Navigate />
-        <Modal show={this.state.scriptmodalIsOpen}>
-            <div className='modal-button-close-container'>
-              <h2>Input new prescription</h2>
-              <div className='modal-button-close' onClick={this.closeModalScript}><i className='fa fa-times-circle' aria-hidden='true'></i></div>
-            </div>
-            <ScriptRemind
-            closeFn={this.closeModalScript} />
-        </Modal>
+        <div className='aqua'>
+          <Modal show={this.state.scriptmodalIsOpen}>
+              <div className="modal-button-close-container aqua">
+                <h2>Input new prescription</h2>
+                <div className='modal-button-close' onClick={this.closeModalScript}><i className="fa fa-times-circle" aria-hidden="true"></i></div>
+              </div>
+              <ScriptRemind className='aqua'
+              closeFn={this.closeModalScript} />
+              {/* <Button onClick={this.closeModalScript}>Exit</Button> */}
 
+          </Modal>
+        </div>
         <Modal show={this.state.docmodalIsOpen} bsSize='small'>
-            <div className='modal-button-close-container'>
+            <div className="modal-button-close-container white">
               <h2>Input new doctor</h2>
               <div className='modal-button-close' onClick={this.closeModalDoctor}><i className='fa fa-times-circle' aria-hidden='true'></i></div>
             </div>
@@ -412,21 +416,23 @@ export default class Profile extends React.Component {
           closeFn={this.closeEditModalDoctor} />
         </Modal>
 
-        <div className='scripts-doctors'> 
-          <div className='scripts-container'>
-            <div className='scripts-header'>
-              <div className='scripts-title'> Prescriptions </div>
-              <div>
-                <input className='zipcode-input' placeholder='Zipcode' type='text' onChange={(event) => {this.setState({inputZip: event.target.value})}}/>
-                <OverlayTrigger placement='top' overlay={<Tooltip id='tooltip'>Find a nearby pharmacy</Tooltip>}>
-                  <Button bsStyle='info' onClick={this.openModalMap}><div><i className='fa fa-search' aria-hidden='true'></i>Pharmacy</div></Button>
-                </OverlayTrigger>
+      <div className="scripts-doctors">
+      <div className='scripts-container'>
+      <div className='scripts-header'>
+        <div className='scripts-title shadow'> Prescriptions </div>
+        <div className='find-pharm'>
+          <input className='zipcode-input' placeholder='Zipcode' type="text" onChange={(event) => {this.setState({inputZip: event.target.value})}}/>
+            <OverlayTrigger placement='top' overlay={<Tooltip id="tooltip"> Find a nearby pharmacy</Tooltip>}>
+              <div className='shadow-box'>
+                <Button bsStyle='info' onClick={this.openModalMap}> <div> <i className="fa fa-search" aria-hidden="true"></i> Pharmacy </div> </Button>
               </div>
-              <div className='add-btn'>
-                <i className='fa fa-plus-circle white add' onClick={this.openModalScript} aria-hidden='true'></i>
-              </div>
-            </div>
-            {
+            </OverlayTrigger>
+        </div>
+        <div className='add-btn shadow'>
+          <i className="fa fa-plus-circle white add" onClick={this.openModalScript} aria-hidden="true"></i>
+        </div>
+      </div>
+             {
               this.state.scripts.map((script, idx) => {
                 return (
                   <div className='scripts-view-container' key={idx}>
@@ -454,31 +460,58 @@ export default class Profile extends React.Component {
                );
               }, this)
             }
-            <div onClick={this.openModalScript} className={this.state.scripts.length === 0 ? 'scripts-empty' : 'hidden'}>Please schedule some reminders!</div>
-          </div>
-          <div className='doctors-container'>
-            <div className='doctors-header'>
-              <div className='doctors-title'>Doctors</div>
-              <OverlayTrigger placement='top' overlay={<Tooltip id='tooltip'> Feeling sick? OneCare can recommend a specialist </Tooltip>}>
-                <div className='rec-btn'>
-                  <Button bsStyle='info' bsSize='small' onClick={this.openModalSymptom}> <div> <i className='fa fa-stethoscope' aria-hidden='true'></i> Recommend </div></Button>
-                </div>
-              </OverlayTrigger>
-              <div className='add-btn'>
-                <i className='fa fa-plus-circle white add' onClick={this.openModalDoctor} aria-hidden='true'></i>
-              </div>
+            <div onClick={this.openModalScript} className={this.state.scripts.length === 0 ? "scripts-empty" : "hidden"}>
+              Click to save a prescription reminder
             </div>
-            {
-              this.state.doctors.map((doctor, idx) => {
-                return (
-                  <div className=' doctor-view-container' key={idx}>
-                    <div className='doc-info'>
-                      <div className='doctor-top-bar'>
-                        <div className='doc-top-first-half'>
-                          <p className='doctor-name'>{doctor.name}</p>
-                          <OverlayTrigger placement='top' overlay={<Tooltip id='tooltip'> Click to edit card</Tooltip>}>
-                            <div className='edit-icon'>
-                              <i className='fa fa-pencil-square-o pencil' aria-hidden='true' onClick={this.openEditModalDoctor.bind(this,idx)}></i>
+          </div>
+        <div className='doctors-container'>
+        <div className='doctors-header'>
+          <div className='doctors-title shadow'> Doctors </div>
+          <OverlayTrigger placement='top' overlay={<Tooltip id="tooltip"> Feeling sick? OneCare can recommend a specialist </Tooltip>}>
+            <div className='rec-btn shadow-box'>
+              <Button bsStyle="info" bsSize='small' onClick={this.openModalSymptom}> <div> <i className="fa fa-stethoscope" aria-hidden="true"></i> Recommend </div></Button>
+            </div>
+          </OverlayTrigger>
+          <div className='add-btn shadow'>
+            <i className="fa fa-plus-circle white add" onClick={this.openModalDoctor} aria-hidden="true"></i>
+          </div>
+        </div>
+              {
+                this.state.doctors.map((doctor, idx) => {
+                  return (
+                      <div className=" doctor-view-container" key={idx}>
+                        <div className="doc-info">
+                            <div className="doctor-top-bar">
+                              <div className="doc-top-first-half">
+                                <p className='doctor-name'>{doctor.name}</p>
+                                <OverlayTrigger placement='top' overlay={<Tooltip id="tooltip"> Click to edit card</Tooltip>}>
+                                <div className='edit-icon'>
+                                  <i className="fa fa-pencil-square-o pencil" aria-hidden="true" onClick={this.openEditModalDoctor.bind(this,idx)}></i>
+                                </div>
+                                </OverlayTrigger>
+                              </div>
+                              <div className='delete-doc'>
+                                <i className="fa fa-times" aria-hidden="true" onClick={this.deleteDoc.bind(this, idx)}></i>
+                              </div>
+                            </div>
+                            <div className='doctor-attribute'>
+                              <i className="fa fa-phone phone-green" aria-hidden="true"></i> {doctor.phone}
+                            </div>
+                            <div className='doctor-attribute'>
+                              <div className="email-specialist-container">
+                                <div>
+                                  <i className="fa fa-envelope envelope" aria-hidden="true"></i>  {doctor.email}
+                                </div>
+                              </div>
+                            </div>
+                            <div className='doctor-footer'>
+                              <div className='doctor-attribute'>
+                                <i className="fa fa-map-marker red" aria-hidden="true"></i>  {doctor.address}
+                              </div>
+                              <div className='doctor-attribute'>
+                                <div className='specialty-tag'>
+                                  <i className="fa fa-stethoscope" aria-hidden="true"></i> {doctor.specialty}
+                                </div>
                             </div>
                           </OverlayTrigger>
                         </div>
@@ -506,36 +539,10 @@ export default class Profile extends React.Component {
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div className='show-notes'>
-                      <OverlayTrigger placement='top' overlay={<Tooltip id='tooltip'>Click to view doctor's notes</Tooltip>}>
-                        <div className={this.state.notesOpen ? 'hidden': 'note-icon'}>
-                          <i className='fa fa-angle-double-down phone-green' aria-hidden='true' onClick={this.doctorNotes.bind(this, doctor)}></i>
-                        </div>
-                      </OverlayTrigger>
-                      <div className={this.state.notesOpen ? 'note-icon': 'hidden'}>
-                        <i className='fa fa-angle-double-up phone-green' aria-hidden='true' onClick={this.doctorNotes.bind(this, doctor)}></i>
-                      </div>
-                    </div>
-                    <div className={this.state.openNotes.doctor === doctor._id ? 'doctor-notes-container' : 'hidden'}>
-                      {
-                        this.state.openNotes.notes
-                          .filter((note) => (
-                            !note.hidden
-                          ))
-                          .map((note, idx) => (
-                        <div key={idx} className={'doctor-notes-entry' + (note.seen ? '' : 'phone-green')}>
-                          <span className='note-delete'><i className='fa fa-trash' aria-hidden='true' onClick={this.hideNote.bind(this, note)}></i></span>
-                          {note.body}
-                        </div>
-                        ))
-                      }
-                    </div>
-                  </div>
-                );
-              }, this)
-            }
-            <div onClick={this.openModalDoctor} className={this.state.doctors.length === 0 ? 'doctors-empty' : 'hidden'}>Please register some doctors!</div>
+                    );
+                }, this)
+              }
+              <div onClick={this.openModalDoctor} className={this.state.doctors.length === 0 ? "doctors-empty" : "hidden"}>Click to save a new doctor</div>
           </div>
         </div>
       </div>

@@ -51,6 +51,16 @@ export default class DRXView extends React.Component {
       type: 'GET',
       url: npiUrl,
       success: function(npiData) {
+        console.log('name:', npiData.data.practices[0].name);
+        console.log('phone:', npiData.data.practices[0].phones[0].number);
+        console.log('addy:'+'\n', npiData.data.practices[0].visit_address.street+'\n',
+                    npiData.data.practices[0].visit_address.city+'\n',
+                    npiData.data.practices[0].visit_address.state+'\n',
+                    npiData.data.practices[0].visit_address.zip);
+        // console.log('spec:', npiData.data.specialties[0].actor);
+        console.log('spec:', this.props.specialty);
+
+
         var toSubmit = {
           'username': window.localStorage.username,
           'first_last': window.localStorage.first_last,
@@ -60,7 +70,7 @@ export default class DRXView extends React.Component {
             phone: '1'+npiData.data.practices[0].phones[0].number,
             email: 'N/A',
             address: npiData.data.practices[0].visit_address.street+' '+npiData.data.practices[0].visit_address.city+', '+npiData.data.practices[0].visit_address.state,
-            specialty: npiData.data.specialties[0].actor
+            specialty: this.props.specialty
           }
         };
 
