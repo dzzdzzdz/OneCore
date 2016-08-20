@@ -27,11 +27,11 @@ export default class SymptomEntryModal extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.recommendations.length !== 0) {
+      console.log("de-cloaking", nextProps.recommendations[nextProps.recommendations.length-1].specialty);
       if(nextProps.recommendations[nextProps.recommendations.length-1].specialty) {
         this.setState({isInRolodex: true});
         this.setState({cloak: false});
-      } 
-      else {
+      } else {
         this.setState({isInRolodex: false});
         this.setState({cloak: false});
       }
@@ -47,17 +47,17 @@ export default class SymptomEntryModal extends React.Component {
     this.setState({isInRolodex: false});
     //training AJAX goes here!
     $.ajax({
-        type: 'POST',
-        url: '/api/brain/add',
+        type: "POST",
+        url: "/api/brain/add",
         headers: {
-          'content-type': 'application/json'
+          "content-type": "application/json"
         },
         data: JSON.stringify({pair: [this.props.symptoms,[this.state.currentRec]]}),
         success: function(res) {
-          console.log('The Brain thanks you for this knowledge.  ', res);
+          console.log("The Brain thanks you for this knowledge.  ", res);
         },
         error: function(err) {
-          console.error('You rekt da brain.  ', err);
+          console.error("You rekt da brain.  ", err);
         }
     });
   }
@@ -70,13 +70,11 @@ export default class SymptomEntryModal extends React.Component {
       this.setState({currentRec: rec});
       if(rec.specialty) {
         this.setState({isInRolodex: true});
-      } 
-      else {
+      } else {
         this.setState({isInRolodex: false});
       }
-    } 
-    else {
-      this.setState({currentRec: {id: 0, name: 'We\'re sorry, but we have no more recommendations to give you'}});
+    } else {
+      this.setState({currentRec: {id: 0, name: "We're sorry, but we have no more recommendations to give you!"}});
     }
   }
 
@@ -100,6 +98,9 @@ export default class SymptomEntryModal extends React.Component {
         console.log('not quite right');
       }
     });
+
+    console.log('===============>', resource_url);
+    console.log('+++++++++++++++>', query);
   }
 
   // UPDATES DRXS STATE FROM SUCCESSFUL AJAX CALL
@@ -107,22 +108,23 @@ export default class SymptomEntryModal extends React.Component {
     this.setState({
       drxs: drxs.data
     });
+    console.log('+++++++++++++++>', drxs);
   }
 
   render() {
     return(
       <div>
-        <div className={this.state.cloak ? 'hidden' : '' +' recommend-modal-container'}>
-          <div className='modal-button-close' onClick={this.props.closeFn}><i className='fa fa-times-circle white' aria-hidden='true'></i></div>
-          <div className='symptom-modal-header'>
-            <div>Symptoms</div>
+        <div className={this.state.cloak ? 'hidden' : '' +" recommend-modal-container"}>
+          <div className='modal-button-close' onClick={this.props.closeFn}><i className="fa fa-times-circle white" aria-hidden="true"></i></div>
+          <div className="symptom-modal-header">
+            <div> Symptoms</div>
           </div>
-          <div className='modal-symptom-container'>
+            <div className="modal-symptom-container">
             {
-              this.props.symptoms.map((symptom) => {
-                return (
-                  <div key={symptom.id} className='modal-symptom-entry'>
-                    <i className='fa fa-arrow-right' aria-hidden='true'></i> <div className='symptom-name'>{symptom.name}</div>
+            this.props.symptoms.map((symptom) => {
+              return (
+                  <div key={symptom.id} className="modal-symptom-entry">
+                    <i className="fa fa-arrow-right" aria-hidden="true"></i> <div className='symptom-name'>{symptom.name}</div>
                   </div>
                 );
               })
@@ -131,18 +133,18 @@ export default class SymptomEntryModal extends React.Component {
           <div className='we-rec'>
             We recommend...
           </div>
-          <div className={this.state.isInRolodex ? '' : 'hidden'}>
-            <DoctorView
-              name={this.state.currentRec ? this.state.currentRec.name : ''}
-              phone={this.state.currentRec ? this.state.currentRec.phone : ''}
-              email={this.state.currentRec ? this.state.currentRec.email : ''}
-              address={this.state.currentRec ? this.state.currentRec.address : ''}
-              specialty={this.state.currentRec ? this.state.currentRec.specialty : ''} />
-            <div className={this.state.currentRec && this.state.currentRec.id === 1000 ? '' : 'hidden'}>We're glad to have been of assistance!</div>
-              <div className="symptom-modal-voting">
-                <span className={(this.state.currentRec && this.state.currentRec.id !== 1000 ? '' : 'hidden')+' modal-button upvote'} onClick={this.upvote}><i className="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
-                <span className={(this.state.currentRec && this.state.currentRec.id !== 1000 ? '' : 'hidden')+' modal-button downvote'} onClick={this.downvote}><i className="fa fa-thumbs-o-down" aria-hidden="true"></i></span>
-              </div>
+            <div className={this.state.isInRolodex ? '' : 'hidden'}>
+              <DoctorView
+                name={this.state.currentRec ? this.state.currentRec.name : ''}
+                phone={this.state.currentRec ? this.state.currentRec.phone : ''}
+                email={this.state.currentRec ? this.state.currentRec.email : ''}
+                address={this.state.currentRec ? this.state.currentRec.address : ''}
+                specialty={this.state.currentRec ? this.state.currentRec.specialty : ''} />
+              <div className={this.state.currentRec && this.state.currentRec.id === 1000 ? '' : 'hidden'}>We're glad to have been of assistance!</div>
+                <div className="symptom-modal-voting">
+                  <span className={(this.state.currentRec && this.state.currentRec.id !== 1000 ? '' : 'hidden')+' modal-button upvote'} onClick={this.upvote}><i className="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
+                  <span className={(this.state.currentRec && this.state.currentRec.id !== 1000 ? '' : 'hidden')+' modal-button downvote'} onClick={this.downvote}><i className="fa fa-thumbs-o-down" aria-hidden="true"></i></span>
+                </div>
             </div>
             <div className='doc-recommendation-container'>
               <div className={this.state.currentRec && !this.state.isInRolodex ? '' : 'hidden'}>
@@ -162,9 +164,7 @@ export default class SymptomEntryModal extends React.Component {
                 </div>
                 {this.state.drxs.map((doctrx, i) => <DRXView specialty={this.state.currentRec.name} closeFn={this.props.closeFn} zipcode={this.props.zipcode} info={doctrx}/>)}
               </div>
-              {this.state.drxs.map((doctrx, i) => <DRXView closeFn={this.props.closeFn} zipcode={this.props.zipcode} info={doctrx}/>)}
             </div>
-          </div>
         </div>
       </div>
     );
