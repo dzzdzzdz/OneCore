@@ -391,7 +391,7 @@ export default class Profile extends React.Component {
         <Modal show={this.state.symptomModalIsOpen} style={this.state.modalStyles} bsClass='modal' >
         {/* bsSize='small' */}
             <div className="modal-button-close-container">
-            <h4>Please select your symptoms from the list below.</h4>
+            <h2>Please select your symptoms</h2>
               <div className='modal-button-close' onClick={this.closeModalSymptom}><i className="fa fa-times-circle" aria-hidden="true"></i></div>
             </div>
             <SymptomEntry

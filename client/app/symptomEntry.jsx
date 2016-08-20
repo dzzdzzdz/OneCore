@@ -217,7 +217,6 @@ export default class SymptomEntryView extends Component {
       <div>
         <div className="symptom-container">
           <div className={!this.state.symptomsWereSubmitted ? "" : "hidden"}>
-            <h4>Please select your symptoms from the list below.</h4>
             <FilteredMultiSelect 
               classNames={{
                 buttonActive: 'symptom-select-button--active',
