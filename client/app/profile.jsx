@@ -388,12 +388,17 @@ export default class Profile extends React.Component {
           zipcode={this.state.inputZip} />
         </Modal>
 
+<<<<<<< HEAD
         <Modal show={this.state.symptomModalIsOpen} style={this.state.modalStyles} bsClass='modal' >
         {/* bsSize='small' */}
             <div className="modal-button-close-container">
             <h2>Please select your symptoms</h2>
+=======
+        <Modal show={this.state.symptomModalIsOpen} style={this.state.modalStyles}>
+            {/* <div className="modal-button-close-container">
+>>>>>>> cff94aa3fce4955c9fd78064570a149e5540a451
               <div className='modal-button-close' onClick={this.closeModalSymptom}><i className="fa fa-times-circle" aria-hidden="true"></i></div>
-            </div>
+            </div> */}
             <SymptomEntry
             zipcode={this.state.zipcode}
             closeFn={this.closeModalSymptom} />
@@ -473,6 +478,7 @@ export default class Profile extends React.Component {
                );
               }, this)
             }
+            <div onClick={this.openModalScript} className={this.state.scripts.length === 0 ? "scripts-empty" : "hidden"}>Please schedule some reminders!</div>
           </div>
         <div className='doctors-container'>
         <div className='doctors-header'>
@@ -541,7 +547,7 @@ export default class Profile extends React.Component {
                               !note.hidden
                             ))
                             .map((note, idx) => (
-                            <div key={idx} className={"doctor-notes-entry" + (note.seen ? "" : " highlight")}>
+                            <div key={idx} className={"doctor-notes-entry" + (note.seen ? "" : " phone-green")}>
                               <span className="note-delete"><i className="fa fa-trash" aria-hidden="true" onClick={this.hideNote.bind(this, note)}></i></span>
                               {note.body}
                             </div>
@@ -552,6 +558,7 @@ export default class Profile extends React.Component {
                     );
                 }, this)
               }
+              <div onClick={this.openModalDoctor} className={this.state.doctors.length === 0 ? "doctors-empty" : "hidden"}>Please register some doctors!</div>
           </div>
       </div>
       </div>
