@@ -85,8 +85,10 @@ export default class SymptomEntryModal extends React.Component {
     if (query.charCodeAt(query.length-1) === 8206) {
       query = query.slice(0, query.length-1);
     }
-    var latitude = window.localStorage.latitude;
-    var longitude = window.localStorage.longitude;
+    // var latitude = window.localStorage.latitude;
+    // var longitude = window.localStorage.longitude;
+    var latitude = '40.7466538';
+    var longitude = '-73.9906954';
     var location = latitude+'%2C'+longitude;
     var resource_url = 'https://api.betterdoctor.com/2016-03-01/doctors?query='+query+'&user_location='+location+'&skip=0&limit=3&user_key='+api_key;
 
